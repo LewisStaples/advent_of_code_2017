@@ -2,9 +2,10 @@
 # https://adventofcode.com/2017/day/02
 
 
-sum = 0
+from itertools import combinations
 
-# Reading input from the input file
+
+sum_B = 0
 input_filename='input_sample1.txt'
 print(f'\nUsing input file: {input_filename}\n')
 with open(input_filename) as f:
@@ -14,31 +15,14 @@ with open(input_filename) as f:
         in_list = in_string.split()
         in_list = [int(x) for x in in_list]
 
-        # try this
-        # https://docs.python.org/3/library/bisect.html#searching-sorted-lists
-        
-        in_list.sort(reverse=True)
-        # print(in_list)
+        in_list.sort()
 
-        evenly_div_pair_not_found = True
-        while evenly_div_pair_not_found:
-            smallest_val = in_list.pop()
-            smallest_val_mult = smallest_val
-            while len(in_list) > 0:
-                if smallest_val_mult in in_list:  # Plan to replace with a faster search, given that it's a sorted list
-                    # something else
-                    # print(f'{smallest_val_mult} is evenly divisible by {smallest_val}')
-                    # print(f'  and the multiple is {smallest_val_mult // smallest_val}')
+        for pair in combinations(in_list, 2):
+            # Because in_list was sorted, I don't need to also check pair[0] % pair[1]
+            if pair[1] % pair[0] == 0:
+                sum_B += pair[1] // pair[0]
+                break
+            
 
-                    sum += smallest_val_mult // smallest_val
-                    evenly_div_pair_not_found = False
-                    break
-                # print(f'{smallest_val_mult} is not evenly divisible by {smallest_val}')
-                smallest_val_mult += smallest_val
-
-            # print(in_list)
-            # print()
-            dummy = 123
-
-print(f'The answer to part B is {sum}')
+print(f'The answer to part B is {sum_B}\n')
 
