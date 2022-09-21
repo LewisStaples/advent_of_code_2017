@@ -1,3 +1,5 @@
+# adventOfCode 2017 day 3
+# https://adventofcode.com/2017/day/3
 
 def get_manh_dist(location_number):
     # Function requires location_number be an integer greater than one.
