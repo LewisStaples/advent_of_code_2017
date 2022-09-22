@@ -3,18 +3,18 @@
 
 
 def is_valid(in_string):
-    # return True
     word_series = set()
     for word in in_string.split(' '):
-        if word in word_series:
+        new_word = ''.join(sorted(word))
+        if new_word in word_series:
             return False
-        word_series.add(word)
+        word_series.add(new_word)
     return True
 
 valid_count = 0
 
 # Reading input from the input file
-input_filename='input_sample0.txt'
+input_filename='input_sample1.txt'
 print(f'\nUsing input file: {input_filename}\n')
 with open(input_filename) as f:
     # Pull in each line from the input file
