@@ -22,7 +22,7 @@ with open(input_filename) as f:
     in_string = f.readline().rstrip()
    
 memory_banks = [int(x) for x in in_string.split()]
-hash_all_memory_banks = {hash(tuple(memory_banks))}
+hash_all_memory_banks = {hash(tuple(memory_banks)): 0}
 redist_cycle_count = 0
 
 while True:
@@ -30,9 +30,11 @@ while True:
     memory_banks = redistribute(memory_banks)
     hash_current_memory_banks = hash(tuple(memory_banks))
     if hash_current_memory_banks not in hash_all_memory_banks:
-        hash_all_memory_banks.add(hash_current_memory_banks)
+        # hash_all_memory_banks.add(hash_current_memory_banks)
+        hash_all_memory_banks[hash_current_memory_banks] = redist_cycle_count
     else:
         # This configuration has been seen before
         break
 
-print(f'The answer is: {redist_cycle_count}\n')
+print(f'The answer to part A is: {redist_cycle_count}')
+print(f'The answer to part B is: {redist_cycle_count - hash_all_memory_banks[hash_current_memory_banks]}\n')
