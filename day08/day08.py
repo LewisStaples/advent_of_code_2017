@@ -53,14 +53,17 @@ class Register:
         elif op_str == 'dec':
             self.set_value(register_str, self.get_value(register_str) - value)
 
+max_historic_register_value = float('-inf')
 the_register = Register()
 # Reading input from the input file
-input_filename='input_sample0.txt'
+input_filename='input.txt'
 print(f'\nUsing input file: {input_filename}\n')
 with open(input_filename) as f:
     # Pull in each line from the input file
     for in_string in f:
         the_register.parse_input(in_string)
+        max_historic_register_value = max(max_historic_register_value, max(the_register.register_storage.values()))
 
-print(f'\nThe answer is: {max(the_register.register_storage.values())}\n')
+print(f'The answer to Part A is: {max(the_register.register_storage.values())}\n')
+print(f'The answer to Part B is: {max_historic_register_value}\n')
 
