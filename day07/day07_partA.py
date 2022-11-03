@@ -10,7 +10,7 @@ potential_bottom_pgms = set()
 pgms_that_cannot_be_on_bottom = set()
 
 # Reading input from the input file
-input_filename='input.txt'
+input_filename='input_sample0.txt'
 print(f'\nUsing input file: {input_filename}\n')
 with open(input_filename) as f:
     # Pull in each line from the input file
@@ -23,5 +23,5 @@ with open(input_filename) as f:
         for ele in rhs.split(", "):
             pgms_that_cannot_be_on_bottom.add(ele)
 
-print(f'The answer to part A is: {potential_bottom_pgms.difference(pgms_that_cannot_be_on_bottom)}\n')
+print(f'The answer to part A is: {potential_bottom_pgms.difference(pgms_that_cannot_be_on_bottom).pop()}\n')
 
