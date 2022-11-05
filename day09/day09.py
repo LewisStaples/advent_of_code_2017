@@ -2,6 +2,12 @@
 # https://adventofcode.com/20xy/day/9
 
 
+# Display data to user only if the data isn't too large
+def conditional_data_display(label_str, data_str):
+    # The length used below can be adjusted by the programmer
+    if len(data_str) < 50:
+        print(f'{label_str}: {data_str}')
+    
 def perform_cancels(in_string):
     # Handle canceled characters 
     # Within garbage any character after ! is ignored.
@@ -15,17 +21,47 @@ def perform_cancels(in_string):
             if in_string[string_i] in ['>', '!']:
                 if in_string[string_i] == '>':
                     break
-                # Remove two chars
-                in_string = in_string[0:string_i] + in_string[string_i + 2:]
+                # Remove two chars (the ! and the next one)
+                in_string = in_string[:string_i] + in_string[string_i + 2:]
                 string_i -= 1
             string_i += 1
-
     return in_string
+
+def process_garbage(in_string):
+    ret_val = ''
+    string_i = 0
+    while string_i < len(in_string):
+        if in_string[string_i] == '>':
+            index_lt = in_string.index('<')
+            in_string = in_string[:index_lt] + in_string[string_i + 1:]
+            string_i -= (string_i - index_lt)
+        string_i += 1
+    
+    ret_val += in_string
+    return ret_val
+
+# This assumes that perform_cancels and process_garbage have already been run
+def get_score_internal(in_string):
+    ret_val = 0
+    string_i = 0
+    brace_level = 0
+    while string_i < len(in_string):
+        if in_string[string_i] == '{':
+            brace_level += 1
+        elif in_string[string_i] == '}' and brace_level > 0:
+            ret_val += brace_level
+            brace_level -= 1
+        string_i += 1
+    return ret_val
 
 def get_score(in_string):
     in_string = perform_cancels(in_string)
+    conditional_data_display('After cancelling', in_string)
 
-    return 42
+    in_string = process_garbage(in_string)
+    conditional_data_display('After processing garbage', in_string)
+
+    return get_score_internal(in_string)
 
 # Reading input from the input file
 input_filename='input_sample0.txt'
@@ -34,14 +70,17 @@ with open(input_filename) as f:
     # Pull in each line from the input file
     for in_string in f:
         in_string = in_string.rstrip()
-        print(f'Input:  {in_string}')
+        conditional_data_display('Input', in_string)
         print(f'Result: {get_score(in_string)}\n')
-print()
 
 
 def test_cancel():
+    # Given samples
     assert perform_cancels('<{!>}>') == '<{}>'
     assert perform_cancels('<!!>') == '<>'
     assert perform_cancels('<!!!>>') == '<>'
     assert perform_cancels('<{o"i!a,<{i<a>') == '<{o"i,<{i<a>'
+
+    # My own sample
+    assert perform_cancels('!<!!!>>') == '!<>'
 
