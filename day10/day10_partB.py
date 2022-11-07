@@ -2,6 +2,14 @@
 # https://adventofcode.com/2017/day/10
 
 
+def input_processing(in_string):
+    ret_val = []
+    for ch in in_string:
+        ret_val.append(ord(ch))
+    ret_val.extend([17, 31, 73, 47, 23])
+    return ret_val
+
+
 # Reading input from the input file
 input_filename='input_sample0.txt'
 print(f'\nUsing input file: {input_filename}\n')
@@ -39,3 +47,5 @@ for length in length_list:
 
 print(f'The answer to part A is {circ_list[0] * circ_list[1]}\n')
 
+def test_input_processing():
+    assert input_processing('1,2,3') == [49,44,50,44,51,17,31,73,47,23]
