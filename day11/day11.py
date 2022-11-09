@@ -4,15 +4,6 @@
 import numpy as np
 
 
-# This program has defined a coordinate system to identify all tiles.
-# The below notes define how the input characters are represented in the coordinates.
-# n alone will be treated as +2 in the vertical direction
-# n before w or e will be treated as +1 in the vertical direction
-# s alone will be treated as -2 in the vertical direction
-# s before w or e will be treated as -1 in the vertical direction
-# w after n or s will be treated as -1 in the horizontal direction
-# e after n or s will be treated as +1 in the horizontal direction
-# 
 # This defines the compass directions used in the coordinates.
 # (Note that these coordinates are not cartesian coordinates)
 compass_directions = {
@@ -22,6 +13,7 @@ compass_directions = {
     'south':np.array([0,-1])
     }
 
+# This maps each input step string to the directions traversed
 steps = {
     'n': 2 * compass_directions['north'],
     'ne': compass_directions['north'] + compass_directions['east'],
@@ -30,8 +22,6 @@ steps = {
     'sw': compass_directions['south'] + compass_directions['west'],
     'nw': compass_directions['north'] + compass_directions['west'],
  }
-
-
 
 
 def get_input_line(input_filename, display):
@@ -51,23 +41,43 @@ def get_coordinates_from_input(in_string, display):
         ret_val += steps[this_step]
         if display:
             print(f'{this_step}: {ret_val}')
+    return ret_val
 
 
+def get_distance_to_coordinates(coords):
+    if np.array_equal((0,0), coords):
+        return 0
+    dist_traversed = 0
+    distances_found = {(0,0): 0}
+    while True:
+        for dist in [key for key, val in distances_found.items() if val == dist_traversed]:
+            for new_step in steps.values():
+                new_dist = np.array(dist) + new_step
+                if tuple(new_dist) not in distances_found:
+                    if np.array_equal(new_dist, coords):
+                        print(f'Answer: {dist_traversed + 1}')
+                        return dist_traversed + 1
+                    distances_found[tuple(new_dist)] = dist_traversed + 1
+
+        dist_traversed += 1
+
+    
 def solve_day11(input_filename, display = False):
     in_string = get_input_line(input_filename, display)
-    get_coordinates_from_input(in_string, display)
+    coords = get_coordinates_from_input(in_string, display)
+    return get_distance_to_coordinates(coords)
 
 
-# solve_day11('input.txt')
+print(f"The answer to part A is: {solve_day11('input.txt')}")
 
 def test_one():
-    solve_day11('input_sample0.txt', display = True)
+    assert 3 == solve_day11('input_sample0.txt', display = True)
 
 def test_two():
-    solve_day11('input_sample1.txt', display = True)
+    assert 0 == solve_day11('input_sample1.txt', display = True)
 
 def test_three():
-    solve_day11('input_sample2.txt', display = True)
+    assert 2 == solve_day11('input_sample2.txt', display = True)
 
 def test_four():
-    solve_day11('input_sample3.txt', display = True)
+    assert 3 == solve_day11('input_sample3.txt', display = True)
