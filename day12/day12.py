@@ -2,11 +2,9 @@
 # https://adventofcode.com/2017/day/12
 
 
-# FOR MULTILINE FILES .....
 # Reading input from the input file
 def get_pipe_info(input_filename, display):
     ret_val = dict()
-    # if display:
     print(f'\nUsing input file: {input_filename}')
     with open(input_filename) as f:
         # Pull in each line from the input file
@@ -19,8 +17,6 @@ def get_pipe_info(input_filename, display):
             ret_val[this_pipe] = other_pipes
             if display:
                 print(in_string)
-    # if display:
-        # print()
     return ret_val
 
 def solve_day12(input_filename, display):
