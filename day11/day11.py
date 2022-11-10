@@ -33,20 +33,23 @@ def get_input_line(input_filename, display):
     return in_string
 
 
-def get_coordinates_from_input(in_string, display):
-    ret_val = np.array([0,0])
+def get_path_from_input(in_string, display):
+    path = [np.array([0,0])]
     if display:
-        print(f'Initial position: {ret_val}')
+        print(f'Initial position: {path[0]}')
     for this_step in in_string.split(','):
-        ret_val += steps[this_step]
+        path.append(path[-1] + steps[this_step])
         if display:
-            print(f'{this_step}: {ret_val}')
-    return ret_val
+            print(f'{this_step}: {path[-1]}')
+    return path
 
 
-def get_distance_to_coordinates(coords):
-    if np.array_equal((0,0), coords):
-        return 0
+def get_distances_to_coordinates(path):
+    ret_val = []
+    path_points = {tuple(x) for x in path[1:-1]}
+
+    if np.array_equal(np.array([0,0]), path[-1]):
+        ret_val.append(0)
     dist_traversed = 0
     distances_found = {(0,0): 0}
     while True:
@@ -54,30 +57,40 @@ def get_distance_to_coordinates(coords):
             for new_step in steps.values():
                 new_dist = np.array(dist) + new_step
                 if tuple(new_dist) not in distances_found:
-                    if np.array_equal(new_dist, coords):
-                        print(f'Answer: {dist_traversed + 1}')
-                        return dist_traversed + 1
+                    if np.array_equal(new_dist, path[-1]):
+                        ret_val.append(dist_traversed + 1)
                     distances_found[tuple(new_dist)] = dist_traversed + 1
-
+        # See if the last point has already been found
+        if len(ret_val) > 0:
+            # Check if remaining points have been found
+            if len(path_points.difference(set(distances_found.keys()))) == 0:
+                ret_val.append(dist_traversed + 1)
+                return ret_val
         dist_traversed += 1
 
     
 def solve_day11(input_filename, display = False):
     in_string = get_input_line(input_filename, display)
-    coords = get_coordinates_from_input(in_string, display)
-    return get_distance_to_coordinates(coords)
+    path = get_path_from_input(in_string, display)
+    return get_distances_to_coordinates(path)
 
+solutions = solve_day11('input.txt')
+print(f"The answer to part A is: {solutions[0]}")
+print(f"The answer to part B is: {solutions[1]}")
 
-print(f"The answer to part A is: {solve_day11('input.txt')}")
 
 def test_one():
-    assert 3 == solve_day11('input_sample0.txt', display = True)
+    solutions = solve_day11('input_sample0.txt', display = True)
+    assert solutions[0] == 3
 
 def test_two():
-    assert 0 == solve_day11('input_sample1.txt', display = True)
+    solutions = solve_day11('input_sample1.txt', display = True)
+    assert solutions[0] == 0 
 
 def test_three():
-    assert 2 == solve_day11('input_sample2.txt', display = True)
+    solutions = solve_day11('input_sample2.txt', display = True)
+    assert solutions[0] == 2 
 
 def test_four():
-    assert 3 == solve_day11('input_sample3.txt', display = True)
+    solutions = solve_day11('input_sample3.txt', display = True)
+    assert solutions[0] == 3
