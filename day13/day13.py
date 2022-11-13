@@ -27,6 +27,7 @@ with open(input_filename) as f:
         layer__depth_to_range[int(k)] = int(v)
     print()
 
+# Part A
 severity = 0
 for depth in range(max(layer__depth_to_range.keys()) + 1):
     try:
@@ -34,8 +35,27 @@ for depth in range(max(layer__depth_to_range.keys()) + 1):
             severity += depth * layer__depth_to_range[depth]
     except KeyError:
         pass
+print(f'The total severity (part A) is {severity}\n')
 
-print(f'The total severity is {severity}\n')
+# Part B
+def try_this_delay():
+    for depth in range(max(layer__depth_to_range.keys()) + 1):
+        try:
+            if 0 == get_curr_height(depth + delay, layer__depth_to_range[depth]):
+                # The delay is not enough
+                return False
+        except KeyError:
+            pass
+    
+    return True
+
+delay = -1
+while True:
+    delay += 1
+    if try_this_delay():
+        break
+
+print(f'The smallest value of delay that leads to a journey without getting caught (part B) is {delay}\n')
 
 def test_get_curr_height():
     # Consider a layer with a range of two
