@@ -27,9 +27,15 @@ with open(input_filename) as f:
         layer__depth_to_range[int(k)] = int(v)
     print()
 
-for elap_time in range(max(layer__depth_to_range.keys()) + 1):
-    print(elap_time, end=': ')
-    print()
+severity = 0
+for depth in range(max(layer__depth_to_range.keys()) + 1):
+    try:
+        if 0 == get_curr_height(depth, layer__depth_to_range[depth]):
+            severity += depth * layer__depth_to_range[depth]
+    except KeyError:
+        pass
+
+print(f'The total severity is {severity}\n')
 
 def test_get_curr_height():
     # Consider a layer with a range of two
