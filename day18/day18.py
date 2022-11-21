@@ -31,9 +31,13 @@ class Tablet:
 
     def check_reg_name_in_use(self, the_string):
         '''
-        Verify that register the_string is in use
+        If register the_string is not initially in use, 
+        set register the_string to zero.
+        If, alternatively, register the_string has a known value,
+        then leave it as is.
         '''
-        assert the_string in self.registers
+        if the_string not in self.registers:
+            self.registers[the_string] = 0
 
     def set(self, params):
         self.check_valid_reg_name(params[0])
