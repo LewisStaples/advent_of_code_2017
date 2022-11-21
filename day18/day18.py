@@ -1,6 +1,9 @@
 # adventOfCode 2017 day 18
 # https://adventofcode.com/2017/day/18
 
+import sys
+
+
 class Tablet:
     def __init__(self):
         self.registers = dict()
@@ -26,27 +29,38 @@ class Tablet:
         assert len(the_string) == 1
         assert the_string.isalpha()
 
+    def check_reg_name_in_use(self, the_string):
+        '''
+        Verify that register the_string is in use
+        '''
+        assert the_string in self.registers
+
     def set(self, params):
         self.check_valid_reg_name(params[0])
         self.registers[params[0]] = self.get_value(params[1])
 
     def add(self, params):
-        dummy = 123
+        self.check_valid_reg_name(params[0])
+        self.check_reg_name_in_use(params[0])
+        self.registers[params[0]] += self.get_value(params[1])
 
     def mul(self, params):
-        dummy = 123
+        self.check_valid_reg_name(params[0])
+        self.check_reg_name_in_use(params[0])
+        self.registers[params[0]] *= self.get_value(params[1])
 
     def mod(self, params):
-        dummy = 123
+        self.check_valid_reg_name(params[0])
+        self.check_reg_name_in_use(params[0])
+        self.registers[params[0]] %= self.get_value(params[1])
 
     def snd(self, params):
-        dummy = 123
+        self.last_sound = self.get_value(params[0])
 
     def rcv(self, params):
-        dummy = 123
+        print(f'First recovered sound frequency: {self.last_sound}\n')
+        sys.exit('Program exiting successfully')
 
-    # def jgz(self, params):
-    #     dummy = 123
 
 def get_tablet(input_filename):
     ret_val = []
@@ -59,8 +73,6 @@ def get_tablet(input_filename):
             if i <= max_i:
                 print(in_string)
             ret_val.append(in_string)
-            # params = in_string.split(' ')
-            # globals()[params[0]](params[1:])
         if i > max_i:
             print(f'(Note: lines {max_i + 2} through {i+1} have been cut off)')
     print()
@@ -81,7 +93,5 @@ def solve_day18(input_filename):
         command = getattr(the_tablet, params[0])
         command(params[1:])
         line_number += 1
-
-        dummy = 123
 
 solve_day18('input_sample0.txt')
