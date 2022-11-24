@@ -54,7 +54,8 @@ def convert_text_to_graph(input_text, start_location):
     # The below could be expanded into a data structure of vertices and edges
     # (depending on what the requirements of part B/2 are)
     ret_val = {
-        'vertices': []
+        'vertices': [],
+        'step_count': 0
     }
 
     pointer = {
@@ -63,6 +64,7 @@ def convert_text_to_graph(input_text, start_location):
     }
 
     while get_char(pointer, input_text) != ' ':
+        ret_val['step_count'] += 1
         if get_char(pointer, input_text) == '+':
             swap(pointer['direction'])
             pointer['location'] += pointer['direction']
@@ -83,7 +85,9 @@ def solve_problem(input_filename):
     print('The letters on the path are (soln. to part A):  ',end='')
     print(''.join(the_graph['vertices']))
     print()
-
+    print('The count of all steps (soln. to part B):  ',end='')
+    print(the_graph['step_count'])
+    print()
 
 solve_problem('input_sample0.txt')
 
