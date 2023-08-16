@@ -46,9 +46,28 @@ def get_input(input_filename):
             the_particles.append(Particle(in_string))
     print()
     return the_particles
-    
+
+
+def get_axis_values_0_1_2(the_particles):
+    pass
+
+'''
+My math predicts that the distance along any axis should be polynomial two.
+Thus, there are coefficients  d,e,f where   d*t^2 + e*t + f = distance along axis.
+Using a,b,c and doubling, I get     a*t^2 + b*t + c = 2*(distance along axis)
+And if I know the distance at times 0,1,2:
+a = distance(0) - distance(2)
+b = 2 * distance(1) - distance(0) - distance(2)
+c = 2 * distance(0)
+'''
+def get_coefficients(the_particles, axis_values_0_1_2):
+    pass
+
+
 def solve_problem(input_filename):
-    the_input = get_input(input_filename)
+    the_particles = get_input(input_filename)
+    axis_values_0_1_2 = get_axis_values_0_1_2(the_particles)
+    the_coefficients = get_coefficients(the_particles, axis_values_0_1_2)
 
 
 
