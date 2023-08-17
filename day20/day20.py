@@ -16,7 +16,11 @@ class Particle:
     def __init__(self, in_string):
         p_string, remainder_string = in_string.split('v')
         v_string, a_string = remainder_string.split('a')
-        self.axes = self.get_axes_from_input(p_string, v_string, a_string)
+        # self.axes = self.get_axes_from_input(p_string, v_string, a_string)
+        self.axes = {f'axis # {k}':v for k,v in enumerate(self.get_axes_from_input(p_string, v_string, a_string))}
+
+        dummy = 123
+
 
     def get_axes_from_input(self, p_string, v_string, a_string):
         p_values = self.get_values_from_string(p_string)
@@ -35,21 +39,26 @@ class Particle:
         return value_list
 
 def get_input(input_filename):
-    the_particles = list()
+    # the_particles = list()
+    the_particles = dict()
     # Reading input from the input file
     print(f'\nUsing input file: {input_filename}\n')
     with open(input_filename) as f:
         # Pull in each line from the input file
-        for in_string in f:
+        for particle_number, in_string in enumerate(f):
             in_string = in_string.rstrip()
             print(in_string)
-            the_particles.append(Particle(in_string))
+            # the_particles.append(Particle(in_string))
+            particle_number_label = f'particle # {particle_number}'
+            the_particles[particle_number_label] = Particle(in_string)
     print()
     return the_particles
 
 
 def get_axis_values_0_1_2(the_particles):
-    pass
+    ret_val = dict()
+    dummy = 123
+
 
 '''
 My math predicts that the distance along any axis should be polynomial two.
