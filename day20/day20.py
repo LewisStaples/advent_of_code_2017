@@ -44,29 +44,37 @@ def get_sum_abs(in_list):
     return ret_val
 
 
-def some_fxn(the_particles):
-    largest_seen_values = {'p':0, 'v':0, 'a':0}
+def get_smallest_particle_number(the_particles):
+    smallest_seen_values = {
+        'p' : {'value' : float('inf'), 'particle_number' : 0}, 
+        'v' : {'value' : float('inf'), 'particle_number' : 0}, 
+        'a' : {'value' : float('inf'), 'particle_number' : 0}
+        }
+    
     for particle_number_label, the_particle in the_particles.items():
         particle_number_int = int(particle_number_label[11:])
         dummy = 123
-        for variable in largest_seen_values:
+        for variable in smallest_seen_values:
             values_member_str = variable + '_values'
             new_value = get_sum_abs(getattr(the_particle, values_member_str))
-            if largest_seen_values[variable] is None:
+            if smallest_seen_values[variable]['value'] is None:
                 pass
-            elif new_value == largest_seen_values[variable]:
-                largest_seen_values[variable] = None
-            elif new_value > largest_seen_values[variable]:
-                largest_seen_values[variable] = new_value
+            elif new_value == smallest_seen_values[variable]['value']:
+                smallest_seen_values[variable]['value'] = None
+            elif new_value < smallest_seen_values[variable]['value']:
+                smallest_seen_values[variable]['value'] = new_value
+                smallest_seen_values[variable]['particle_number'] = particle_number_int
 
 
             dummy = 123
 
     dummy = 123
-    for something1, something2 in largest_seen_values.items():
-        if something2 is None:
+    for variable, value__paricle_number in smallest_seen_values.items():
+        if value__paricle_number['value'] is None:
             continue
-
+        
+        return value__paricle_number['particle_number']
+    
         # # Loop through axes
         # for i in range(len(the_particle.a_values)):
         #     dummy = 123
@@ -81,15 +89,16 @@ def some_fxn(the_particles):
 
 def solve_problem(input_filename):
     the_particles = get_input(input_filename)
-    some_fxn(the_particles)
-    dummy = 123
+    smallest_particle_number = get_smallest_particle_number(the_particles)
+
+    print(f'Answer: {smallest_particle_number}\n')
 
     # axis_values_0_1_2 = get_axis_values_0_1_2(the_particles)
     # the_coefficients = get_coefficients(the_particles, axis_values_0_1_2)
 
 
 
-solve_problem('input_sample0.txt')
+solve_problem('input.txt')
 
 # def test_sample_0():
 #     solve_problem('input_sample0.txt')
