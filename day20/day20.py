@@ -46,9 +46,9 @@ def get_sum_abs(in_list):
 
 def get_smallest_particle_number(the_particles):
     smallest_seen_values = {
-        'p' : {'value' : float('inf'), 'particle_number' : 0}, 
+        'a' : {'value' : float('inf'), 'particle_number' : 0}, 
         'v' : {'value' : float('inf'), 'particle_number' : 0}, 
-        'a' : {'value' : float('inf'), 'particle_number' : 0}
+        'p' : {'value' : float('inf'), 'particle_number' : 0}
         }
     
     for particle_number_label, the_particle in the_particles.items():
