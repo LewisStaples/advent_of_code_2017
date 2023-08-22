@@ -56,28 +56,34 @@ def get_smallest_particle_number(the_particles):
         dummy = 123
         for variable in smallest_seen_values:
             values_member_str = variable + '_values'
-            new_value = get_sum_abs(getattr(the_particle, values_member_str))
-            if smallest_seen_values[variable]['value'] is None:
-                pass
-            elif new_value == smallest_seen_values[variable]['value']:
-                smallest_seen_values[variable]['value'] = None
+            # new_value = get_sum_abs(getattr(the_particle, values_member_str))
+            new_value = get_sum_abs(getattr(the_particles[particle_number_label], values_member_str))
+            # if smallest_seen_values[variable]['value'] is None:
+                # pass
+            # elif 
+            
+            # # loop through axes
+            # for i in range(len(the_particle.a_values)):
+            #     getattr(the_particles[particle_number_label], values_member_str)
+
+            if new_value == smallest_seen_values[variable]['value']:
+                smallest_seen_values[variable]['particle_number'] = None
             elif new_value < smallest_seen_values[variable]['value']:
                 smallest_seen_values[variable]['value'] = new_value
                 smallest_seen_values[variable]['particle_number'] = particle_number_int
 
-
+        if smallest_seen_values[variable]['particle_number'] != None:
+            break
             dummy = 123
 
     dummy = 123
-    for variable, value__paricle_number in smallest_seen_values.items():
-        if value__paricle_number['value'] is None:
+    for variable, value__particle_number in smallest_seen_values.items():
+        if value__particle_number['value'] is None:
             continue
-        
-        return value__paricle_number['particle_number']
+        return value__particle_number['particle_number']
     
-        # # Loop through axes
-        # for i in range(len(the_particle.a_values)):
-        #     dummy = 123
+        # Loop through axes
+
             
 # bar = getattr(foo, 'bar')
 # result = bar()
